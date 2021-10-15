@@ -1,4 +1,5 @@
- let express=require('express');
+ const { json } = require('express');
+let express=require('express');
  let server=express();
  let port=3000;
  let data=[ { Name:'Jesus Christ!'},{From:'Najareth!'}]
@@ -18,6 +19,7 @@
 
 
 //  ------------------For Specified Host!---------
+
 //  server.get('/getdata',(req,res)=>{
     
 //     console.log(req.headers.host)
@@ -31,18 +33,34 @@
 //  })
 
 //  ------------For Specified Browser!-----
-let otharize=(req,res,next)=>{
-    if ( req.headers['user-agent']==='Thunder Client (https://www.thunderclient.io)')
-next()
+
+// let otharize=(req,res,next)=>{
+//     if ( req.headers['user-agent']==='Thunder Client (https://www.thunderclient.io)')
+// next()
+//     else{
+//         res.send('U r unotharized!')
+//     }
+// }
+
+// server.get('/',otharize,(req,res)=>{
+//     res.send(data)
+// })
+
+
+
+// ---------- For Admin Use only!-----
+
+let admin=(req,res,next)=>{
+    if (req.headers.admin==='true') next();
     else{
-        res.send('U r unotharized!')
+        res.send('U cant do this opiration! ')
     }
 }
+// server.use(json)
 
-server.get('/',otharize,(req,res)=>{
-    res.send(data)
+server.get('/admin',admin,(req,res)=>{
+    res.json(data)
 })
-
 
  server.post('/',(req,res)=>{
     //  res.send('Prase the Lord!, Hallaluya!!!!')
