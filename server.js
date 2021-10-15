@@ -50,23 +50,28 @@ let express=require('express');
 
 // ---------- For Admin Use only!-----
 
-let admin=(req,res,next)=>{
-    if (req.headers.admin==='true') next();
-    else{
-        res.send('U cant do this opiration! ')
-    }
-}
-// server.use(json)
+// let admin=(req,res,next)=>{
+//     if (req.headers.admin==='true') next();
+//     else{
+//         res.send('U cant do this opiration! ')
+//     }
+// }
+// server.get('/admin',admin,(req,res)=>{
+//     res.json(data)
+// })
 
-server.get('/admin',admin,(req,res)=>{
-    res.json(data)
-})
 
- server.post('/',(req,res)=>{
+//  ---------------For using body of request!----
+//  This is used to convert to JSon!
+server.use(express.json()) 
+
+ server.post('/signup',(req,res)=>{
     //  res.send('Prase the Lord!, Hallaluya!!!!')
      res.send(data)
-     req.headers['user-agent']
+     console.log(req.body)
  })
+ server.get('/admin',(req,res)=>{
+        res.send(req.headers['user-agent'])})
  server.listen(port,()=>{
      console.log(`server listening at port no: ${port}`)
  })
